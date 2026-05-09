@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Square {
+  id            String   @id @default(cuid())
+  dongCode      String   @unique
+  name          String
+  isPremium     Boolean  @default(false)
+  ownerName     String
+  description   String
+  message       String?
+  link          String?
+  imageUrl      String?
+  depositorName String
+  status        String   @default("pending") // pending | confirmed | expired
+  createdAt     DateTime @default(now())
+  expiresAt     DateTime?
+}
