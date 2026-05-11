@@ -46,6 +46,21 @@ const deleteSquare = async (req, res) => {
   }
 };
 
+// DELETE /api/admin/square/:dongCode - 강제 초기화 (빈 칸으로)
+const resetSquare = async (req, res) => {
+  try {
+    const { dongCode } = req.params;
+
+    await prisma.square.deleteMany({
+      where: { dongCode },
+    });
+
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ success: false, message: '서버 오류' });
+  }
+};
+
 // GET /api/admin/expired - 만료된 목록
 const getExpiredSquares = async (req, res) => {
   try {
@@ -85,4 +100,4 @@ const getPendingSquares = async (req, res) => {
   }
 };
 
-module.exports = { getAllSquares, confirmSquare, deleteSquare, getExpiredSquares, getStats };
+module.exports = { getAllSquares, getPendingSquares, confirmSquare, deleteSquare, getExpiredSquares, getStats, resetSquare };
