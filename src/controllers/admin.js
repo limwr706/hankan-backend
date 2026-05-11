@@ -72,4 +72,17 @@ const getStats = async (req, res) => {
   }
 };
 
+// GET /api/admin/pending - 대기 중인 것만
+const getPendingSquares = async (req, res) => {
+  try {
+    const squares = await prisma.square.findMany({
+      where: { status: 'pending' },
+      orderBy: { createdAt: 'desc' },
+    });
+    res.json(squares);
+  } catch (error) {
+    res.status(500).json({ success: false, message: '서버 오류' });
+  }
+};
+
 module.exports = { getAllSquares, confirmSquare, deleteSquare, getExpiredSquares, getStats };

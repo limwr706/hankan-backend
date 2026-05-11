@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const adminAuth = require('../middlewares/auth');
-const { getAllSquares, confirmSquare, deleteSquare, getExpiredSquares, getStats } = require('../controllers/admin');
+const { getAllSquares, getPendingSquares, confirmSquare, deleteSquare, getExpiredSquares, getStats } = require('../controllers/admin');
 
-router.get('/pending', adminAuth, getAllSquares);
+
+router.get('/pending', adminAuth, getPendingSquares);
 router.get('/squares', adminAuth, getAllSquares);
 router.get('/expired', adminAuth, getExpiredSquares);
 router.get('/stats', adminAuth, getStats);
