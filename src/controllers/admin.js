@@ -46,4 +46,30 @@ const deleteSquare = async (req, res) => {
   }
 };
 
-module.exports = { getAllSquares, confirmSquare, deleteSquare };
+// GET /api/admin/expired - 만료된 목록
+const getExpiredSquares = async (req, res) => {
+  try {
+    const squares = await prisma.square.findMany({
+      where: { status: 'expired' },
+      orderBy: { createdAt: 'desc' },
+    });
+    res.json(squares);
+  } catch (error) {
+    res.status(500).json({ success: false, message: '서버 오류' });
+  }
+};
+
+// GET /api/admin/stats - 통계
+const getStats = async (req, res) => {
+  try {
+    const total = await prisma.square.count();
+    const confirmed = await prisma.square.count({ where: { status: 'confirmed' } });
+    const pending = await prisma.square.count({ where: { status: 'pending' } });
+    const expired = await prisma.square.count({ where: { status: 'expired' } });
+    res.json({ total, confirmed, pending, expired });
+  } catch (error) {
+    res.status(500).json({ success: false, message: '서버 오류' });
+  }
+};
+
+module.exports = { getAllSquares, confirmSquare, deleteSquare, getExpiredSquares, getStats };
