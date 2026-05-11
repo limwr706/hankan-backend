@@ -3,8 +3,8 @@ const router = express.Router();
 const adminAuth = require('../middlewares/auth');
 const { getAllSquares, confirmSquare, deleteSquare } = require('../controllers/admin');
 
-router.get('/squares', adminAuth, getAllSquares);
-router.patch('/squares/:id/confirm', adminAuth, confirmSquare);
-router.delete('/squares/:id', adminAuth, deleteSquare);
+router.get('/pending', adminAuth, getAllSquares);
+router.patch('/confirm/:id', adminAuth, confirmSquare);
+router.delete('/reject/:id', adminAuth, deleteSquare);
 
 module.exports = router;
